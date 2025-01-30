@@ -1,4 +1,4 @@
-package com.example.videoprocessing;
+package com.fiapgrupo27.videoprocessing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.example.videoprocessing.domain;
+package com.fiapgrupo27.videoprocessing.domain;
 
 import jakarta.persistence.*;
 

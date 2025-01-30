@@ -1,4 +1,4 @@
-package com.example.videoprocessing.config;
+package com.fiapgrupo27.videoprocessing.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

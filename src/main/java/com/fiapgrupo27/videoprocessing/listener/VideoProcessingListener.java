@@ -1,7 +1,7 @@
-package com.example.videoprocessing.listener;
+package com.fiapgrupo27.videoprocessing.listener;
 
-import com.example.videoprocessing.repository.SolicitacaoArquivoRepository;
-import com.example.videoprocessing.service.VideoProcessingService;
+import com.fiapgrupo27.videoprocessing.repository.SolicitacaoArquivoRepository;
+import com.fiapgrupo27.videoprocessing.service.VideoProcessingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

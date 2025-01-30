@@ -1,4 +1,4 @@
-package com.example.videoprocessing.infrastructure;
+package com.fiapgrupo27.videoprocessing.infrastructure;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

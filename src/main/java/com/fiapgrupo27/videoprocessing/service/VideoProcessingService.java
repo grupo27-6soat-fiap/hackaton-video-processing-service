@@ -1,7 +1,7 @@
-package com.example.videoprocessing.service;
+package com.fiapgrupo27.videoprocessing.service;
 
-import com.example.videoprocessing.infrastructure.SolicitacaoServiceClient;
-import com.example.videoprocessing.repository.SolicitacaoArquivoRepository;
+import com.fiapgrupo27.videoprocessing.infrastructure.SolicitacaoServiceClient;
+import com.fiapgrupo27.videoprocessing.repository.SolicitacaoArquivoRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
