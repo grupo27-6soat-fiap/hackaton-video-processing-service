@@ -1,4 +1,4 @@
-package com.fiapgrupo27.videoprocessing.application.repository;
+package com.fiapgrupo27.videoprocessing.infrastructure.persistence;
 
 import com.fiapgrupo27.videoprocessing.domain.SolicitacaoArquivo;
 import org.springframework.data.jpa.repository.JpaRepository;

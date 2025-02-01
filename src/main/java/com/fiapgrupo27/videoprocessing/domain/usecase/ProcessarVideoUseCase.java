@@ -1,6 +1,6 @@
 package com.fiapgrupo27.videoprocessing.domain.usecase;
 
-import com.fiapgrupo27.videoprocessing.application.repository.SolicitacaoArquivoRepository;
+import com.fiapgrupo27.videoprocessing.infrastructure.persistence.SolicitacaoArquivoRepository;
 import com.fiapgrupo27.videoprocessing.infrastructure.SolicitacaoServiceClient;
 import org.springframework.stereotype.Component;
 
