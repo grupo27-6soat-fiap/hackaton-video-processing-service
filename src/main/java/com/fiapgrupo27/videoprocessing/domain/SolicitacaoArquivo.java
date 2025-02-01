@@ -13,7 +13,7 @@ public class SolicitacaoArquivo {
 
     private int idSolicitacao;
 
-    private int idCliente;
+    private int idSolicitante;
 
     private String nomeArquivo;
 
@@ -39,12 +39,12 @@ public class SolicitacaoArquivo {
         this.idSolicitacao = idSolicitacao;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public int getIdSolicitante() {
+        return idSolicitante;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setIdSolicitante(int idSolicitante) {
+        this.idSolicitante = idSolicitante;
     }
 
     public String getNomeArquivo() {
@@ -69,5 +69,13 @@ public class SolicitacaoArquivo {
 
     public void setDataInclusao(LocalDateTime dataInclusao) {
         this.dataInclusao = dataInclusao;
+    }
+
+    public boolean isProcessado() {
+        return "PROCESSADO".equalsIgnoreCase(this.status);
+    }
+
+    public void atualizarStatus(String novoStatus) {
+        this.status = novoStatus;
     }
 }
