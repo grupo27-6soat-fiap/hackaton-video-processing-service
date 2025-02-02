@@ -8,6 +8,11 @@ on:
     branches:
       - master
   workflow_dispatch:
+
+env:
+  ECR_REPOSITORY: foodtech
+  EKS_CLUSTER_NAME: foodtech-eks-cluster
+  AWS_REGION: us-east-1
   
 jobs:
   build:
