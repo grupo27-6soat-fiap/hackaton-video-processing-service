@@ -64,6 +64,8 @@
                 <version>3.3.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                    <source>17</source>  <!-- Defina a versão do Java de origem -->
+                    <target>17</target>
                 </configuration>
             </plugin>
           
