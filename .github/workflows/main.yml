@@ -61,7 +61,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token armazenado como segredo no GitHub
         run: |
             mvn clean install sonar:sonar \
-              -Dsonar.projectKey=grupo27-6soat-fiap_grupo27-hackaton-video-processing-service \
+              -Dsonar.projectKey=grupo27-6soat-fiap_hackaton-video-processing-service \
               -Dsonar.organization=grupo27-6soat-fiap \
               -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
