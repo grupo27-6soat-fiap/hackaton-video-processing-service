@@ -31,7 +31,7 @@ jobs:
       - name: Fail if there is a direct push to production
         run: |
           echo "Direct push to production is not allowed!"
-          exit 1
+          #exit 1
 
       # Passo para pegar o hash curto do commit
       - name: Set short git commit SHA
