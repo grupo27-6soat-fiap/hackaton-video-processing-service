@@ -50,7 +50,7 @@ jobs:
 
       # Passo para fazer upload dos artefatos
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Agora com a versão correta v3
         with:
           name: build-artifact
           path: ./target
