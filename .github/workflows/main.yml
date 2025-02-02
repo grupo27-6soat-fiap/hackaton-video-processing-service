@@ -67,4 +67,3 @@ jobs:
               -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
               -Dsonar.maven.plugin.version=4.0.0.4121 \
               -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-
