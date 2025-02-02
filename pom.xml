@@ -50,6 +50,10 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>grupo27-6soat-fiap_grupo27-hackaton-video-processing-service</sonar.projectKey>
+        <sonar.organization>grupo27-6soat-fiap</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <build>
@@ -68,6 +72,20 @@
                <artifactId>sonar-maven-plugin</artifactId>
                <version>4.0.0.4121</version>
              </plugin>
+
+             <plugin>
+               <groupId>org.jacoco</groupId>
+               <artifactId>jacoco-maven-plugin</artifactId>
+               <version>0.8.8</version> <!-- Verifique a versão mais recente -->
+               <executions>
+                 <execution>
+                   <goals>
+                     <goal>prepare-agent</goal> <!-- Prepara o agente de cobertura -->
+                     <goal>report</goal> <!-- Gera o relatório -->
+                   </goals>
+                 </execution>
+               </executions>
+             </plugin>    
         </plugins>
     </build>
 
