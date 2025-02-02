@@ -1,5 +1,5 @@
 name: grupo27-6soat-fiap-hackaton-video-processing-service
- 
+
 on:
   push:
     branches:
@@ -17,44 +17,52 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
+      # Passo para verificar commits diretamente na branch master (produção)
       - name: Check if commit is a direct commit to production
         run: |
           # Verifica se o commit foi feito diretamente na branch de produção
           if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
             echo "Committing directly to production is not allowed!" && exit 1
           fi
-          
+
+      # Passo para falhar o workflow caso haja um push direto para produção
       - name: Fail if there is a direct push to production
         run: |
           echo "Direct push to production is not allowed!"
           exit 1
+
+      # Passo para pegar o hash curto do commit
       - name: Set short git commit SHA
         id: commit
         uses: prompt/actions-commit-hash@v3
 
+      # Passo para fazer checkout do código
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Passo para configurar o JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+      # Passo para fazer upload dos artefatos
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
         with:
-          name: Package
-          path: build/libs
-          
+          name: build-artifact
+          path: ./target
+
+      # Passo para cache das dependências do SonarCloud
       - name: Cache SonarCloud dependencies
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
-       
+
+      # Passo para rodar o build e análise com SonarCloud
       - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Token armazenado como segredo no GitHub
