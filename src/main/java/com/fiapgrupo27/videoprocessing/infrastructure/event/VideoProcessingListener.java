@@ -1,4 +1,4 @@
-package com.fiapgrupo27.videoprocessing.listener;
+package com.fiapgrupo27.videoprocessing.infrastructure.event;
 
 import com.fiapgrupo27.videoprocessing.domain.usecase.ProcessarVideoUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
