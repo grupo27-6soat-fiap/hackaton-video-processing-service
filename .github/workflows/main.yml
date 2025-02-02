@@ -23,7 +23,8 @@ jobs:
         run: |
           # Verifica se o commit foi feito diretamente na branch de produção
           if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
-            echo "Committing directly to production is not allowed!" && exit 1
+            echo "Committing directly to production is not allowed!"
+            exit 1  # Impede a execução do workflow caso ocorra um push direto
           fi
 
       # Passo para falhar o workflow caso haja um push direto para produção
