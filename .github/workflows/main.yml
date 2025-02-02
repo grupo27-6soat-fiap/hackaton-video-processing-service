@@ -23,8 +23,7 @@ jobs:
         run: |
           # Verifica se o commit foi feito diretamente na branch de produção
           if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
-            echo "Committing directly to production is not allowed!"
-            exit 1  # Impede a execução do workflow caso ocorra um push direto
+            echo "Committing directly to production is not allowed!" && exit 1
           fi
 
       # Passo para falhar o workflow caso haja um push direto para produção
@@ -49,27 +48,19 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      # Passo para fazer upload dos artefatos
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4  # Usando a versão v4
-        with:
-          name: build-artifact
-          path: ./target
-
       # Passo para cache das dependências do SonarCloud
       - name: Cache SonarCloud dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
+          path: ~/.m2/repository  # Cache para dependências Maven
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/*.java') }}
 
-      # Passo para rodar o build e análise com SonarCloud
+      # Passo para rodar o build e análise com SonarCloud usando Maven
       - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token armazenado como segredo no GitHub
         run: |
-            chmod +x ./gradlew  # Adiciona permissão de execução
-            ./gradlew clean build sonar \
+            mvn clean install sonar:sonar \
             -Dsonar.projectKey=grupo27-6soat-fiap_grupo27-hackaton-video-processing-service \
             -Dsonar.organization=grupo27-6soat-fiap \
             -Dsonar.host.url=https://sonarcloud.io
