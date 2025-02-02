@@ -65,4 +65,6 @@ jobs:
               -Dsonar.organization=grupo27-6soat-fiap-1 \
               -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-              -Dsonar.maven.plugin.version=4.0.0.4121
+              -Dsonar.maven.plugin.version=4.0.0.4121 \
+              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
