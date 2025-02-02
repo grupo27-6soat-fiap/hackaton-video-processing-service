@@ -80,9 +80,12 @@
                <executions>
                  <execution>
                    <goals>
-                     <goal>prepare-agent</goal> <!-- Prepara o agente de cobertura -->
-                     <goal>report</goal> <!-- Gera o relatório -->
+                     <goal>prepare-agent</goal> 
+                     <goal>report</goal>
                    </goals>
+                  <configuration>
+                   <outputDirectory>target/jacoco-report/</outputDirectory>  
+                  </configuration>       
                  </execution>
                </executions>
              </plugin>    
