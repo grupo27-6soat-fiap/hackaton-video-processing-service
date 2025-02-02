@@ -1,69 +1,66 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+name: grupo27-6soat-fiap-hackaton-video-processing-service
 
-    <groupId>com.example.videoprocessing</groupId>
-    <artifactId>video-processing-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version> <!-- Substitua pela versão que você preferir -->
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    <dependencies>
-        <!-- Spring Boot Starter Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
 
-        <!-- Spring Boot Starter Data JPA -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+env:
+  ECR_REPOSITORY: foodtech
+  EKS_CLUSTER_NAME: foodtech-eks-cluster
+  AWS_REGION: us-east-1
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Passo para verificar commits diretamente na branch master (produção)
+      - name: Check if commit is a direct commit to production
+        run: |
+          # Verifica se o commit foi feito diretamente na branch de produção
+          if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
+            echo "Committing directly to production is not allowed!" && exit 1
+          fi
 
-        <!-- PostgreSQL Driver -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+      # Passo para falhar o workflow caso haja um push direto para produção
+      - name: Fail if there is a direct push to production
+        run: |
+          echo "Direct push to production is not allowed!"
+          #exit 1
 
-        <!-- RabbitMQ -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20230227</version>
-        </dependency>
+      # Passo para pegar o hash curto do commit
+      - name: Set short git commit SHA
+        id: commit
+        uses: prompt/actions-commit-hash@v3
 
-    </dependencies>
+      # Passo para fazer checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+      # Passo para configurar o JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      # Passo para cache das dependências do SonarCloud
+      - name: Cache SonarCloud dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository  # Cache para dependências Maven
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/*.java') }}
 
-
-</project>
+      # Passo para rodar o build e análise com SonarCloud usando Maven
+      - name: Build and analyze with SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token armazenado como segredo no GitHub
+        run: |
+            mvn clean install sonar:sonar \
+            -Dsonar.projectKey=grupo27-6soat-fiap_grupo27-hackaton-video-processing-service \
+            -Dsonar.organization=grupo27-6soat-fiap \
+            -Dsonar.host.url=https://sonarcloud.io
