@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-db
+  labels:
+    app: db-projeto-hackaton
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: db-projeto-hackaton
+      labels: 
+        app: db-projeto-hackaton
+    spec:
+      containers:
+        - name: db-projeto-hackaton-container
+          image: postgres:latest
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: db-configmap
+          volumeMounts:
+            - name: db-pvc-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-pvc-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+  selector:
+    matchLabels:
+      app: db-projeto-hackaton

@@ -1,0 +1,45 @@
+services:
+  db_hackaton_fiap:
+    container_name: db_hackaton_fiap
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: hackaton_processamentovideos
+      MYSQL_ROOT_PASSWORD: root 
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   
+    networks:
+      foodtechchallenge-net:
+
+  foodtechchallenge-webservices:
+    container_name: foodtechchallenge-webservices
+    build:
+      # context: food-techchallenge-api
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db_hackaton_fiap
+    environment:  
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.datasource.url=jdbc:postgresql://localhost:5432/hackaton_processamentovideos
+      - spring.datasource.username=postgres
+      - spring.datasource.password=1234
+    networks:
+      foodtechchallenge-net:
+    restart: on-failure
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 256M
+
+networks:
+  foodtechchallenge-net:

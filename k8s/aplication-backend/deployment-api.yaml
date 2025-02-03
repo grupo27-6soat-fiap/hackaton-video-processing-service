@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-api
+  labels:
+    app: projeto-hackaton-pod
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: projeto-hackaton-pod
+      labels: 
+        app: projeto-hackaton-pod
+    spec:
+      containers:
+        - name: projeto-hackaton-container
+          image: ''
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: api-configmap    
+          livenessProbe:
+            httpGet:
+              path: /swagger-ui/index.html#/produto-controller/listar
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 5
+            initialDelaySeconds: 20
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"    
+  selector:
+    matchLabels:
+      app: projeto-hackaton-pod

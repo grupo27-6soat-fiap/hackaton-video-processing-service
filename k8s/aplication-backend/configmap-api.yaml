@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+data:
+  #MYSQL_USER: springuser
+  #MYSQL_ROOT_PASSWORD: ThePassword
+  #MYSQL_DATABASE: db_techfood
+  #MYSQL_DB_URL: svc-dbtechfood.default.svc.cluster.local
+  #svc-dbtechfood.default.svc.cluster.local
+  #jdbc:mysql://db_techfood:3306/db_techfood
+  #MYSQL_DB_USER: "root"
+  #MYSQL_DB_PASSWORD: "root"
