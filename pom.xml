@@ -43,6 +43,28 @@
             <version>20230227</version>
         </dependency>
     </dependencies>
+
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>7.14.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-spring</artifactId>
+        <version>7.14.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>7.14.0</version>
+        <scope>test</scope>
+    </dependency>
+
     
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
