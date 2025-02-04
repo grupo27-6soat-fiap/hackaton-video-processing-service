@@ -59,14 +59,14 @@ jobs:
 
       # Passo para rodar os testes e gerar o relatório JaCoCo
       - name: Run tests and generate JaCoCo coverage
-        run: ./gradlew clean test jacocoTestReport
+        run: ./gradle clean test jacocoTestReport
 
       # Passo para rodar o build e análise com SonarCloud usando Gradle
       - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew clean build sonarqube \
+          ./gradle clean build sonarqube \
             -Dsonar.projectKey=grupo27-6soat-fiap_hackaton-video-processing-service \
             -Dsonar.organization=grupo27-6soat-fiap-1 \
             -Dsonar.host.url=https://sonarcloud.io \
