@@ -8,22 +8,25 @@ import java.io.InputStreamReader;
 
 @Component
 public class ExtractFramesUseCase {
+
+    private final Runtime runtime;
+
+    public ExtractFramesUseCase() {
+        this.runtime = Runtime.getRuntime();
+    }
+
+    // Construtor para permitir injeção no teste
+    public ExtractFramesUseCase(Runtime runtime) {
+        this.runtime = runtime;
+    }
+
     public void executar(String videoPath, String outputDir, String baseName) throws IOException, InterruptedException {
-//        String command = String.format("ffmpeg -i %s -vf fps=1/1 %s/%s_%%04d.jpg", videoPath, outputDir, baseName);
-//        Process process = Runtime.getRuntime().exec(command);
-//        int exitCode = process.waitFor();
-//        if (exitCode != 0) {
-//            throw new RuntimeException("Erro ao extrair quadros.");
-//        }
-
-
         String command = String.format(
-                // "ffmpeg -i %s -vf fps=1/1 %s/frame_%%04d.jpg",
                 "ffmpeg -i %s -vf fps=1/2 %s/%s_%%04d.jpg",
                 videoPath, outputDir, baseName
         );
 
-        Process process = Runtime.getRuntime().exec(command);
+        Process process = runtime.exec(command);
 
         // Consome a saída padrão em uma thread separada
         Thread stdOutThread = new Thread(() -> {
@@ -52,7 +55,6 @@ public class ExtractFramesUseCase {
         stdOutThread.start();
         stdErrThread.start();
 
-        // Aguarda o término do processo
         int exitCode = process.waitFor();
         stdOutThread.join();
         stdErrThread.join();

@@ -1,6 +1,6 @@
 package com.fiapgrupo27.videoprocessing.domain.usecase;
 
-import com.fiapgrupo27.videoprocessing.domain.SolicitacaoArquivo;
+import com.fiapgrupo27.videoprocessing.domain.entity.SolicitacaoArquivo;
 
 public class ProcessarSolicitacaoArquivoUseCase {
     public void executar(SolicitacaoArquivo solicitacao) {
