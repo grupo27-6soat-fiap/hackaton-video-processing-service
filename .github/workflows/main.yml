@@ -13,7 +13,7 @@ env:
   ECR_REPOSITORY: foodtech
   EKS_CLUSTER_NAME: foodtech-eks-cluster
   AWS_REGION: us-east-1
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,25 +48,27 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      # Passo para cache das dependências do SonarCloud
-      - name: Cache SonarCloud dependencies
+      # Cache de dependências do Gradle (wrapper e caches)
+      - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
-          path: ~/.m2/repository  # Cache para dependências Maven
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/*.java') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Rodar testes e gerar cobertura JaCoCo
-        run: mvn clean verify
-        
-      # Passo para rodar o build e análise com SonarCloud usando Maven
+      # Passo para rodar os testes e gerar o relatório JaCoCo
+      - name: Run tests and generate JaCoCo coverage
+        run: ./gradlew clean test jacocoTestReport
+
+      # Passo para rodar o build e análise com SonarCloud usando Gradle
       - name: Build and analyze with SonarCloud
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token armazenado como segredo no GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-            mvn clean install sonar:sonar \
-              -Dsonar.projectKey=grupo27-6soat-fiap_hackaton-video-processing-service \
-              -Dsonar.organization=grupo27-6soat-fiap-1 \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-              -Dsonar.maven.plugin.version=4.0.0.4121 \
-              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+          ./gradlew clean build sonarqube \
+            -Dsonar.projectKey=grupo27-6soat-fiap_hackaton-video-processing-service \
+            -Dsonar.organization=grupo27-6soat-fiap-1 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
