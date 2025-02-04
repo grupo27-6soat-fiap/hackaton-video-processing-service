@@ -50,12 +50,12 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      # Passo para garantir que o gradlew tenha permissão de execução
+      # Garanta que o wrapper tenha permissão de execução
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Run tests and generate JaCoCo coverage
-        run: ./gradlew clean test jacocoTestReport
+        run: ./gradlew clean test jacocoTestReport -Dorg.gradle.java.home=$JAVA_HOME
 
       - name: Build and analyze with SonarCloud
         env:
@@ -66,4 +66,5 @@ jobs:
             -Dsonar.organization=grupo27-6soat-fiap-1 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
+            -Dorg.gradle.java.home=$JAVA_HOME
